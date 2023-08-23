@@ -1,10 +1,9 @@
+from rest_framework.routers import DefaultRouter
 
-from django.urls import path
 from interview.order.views import OrderListCreateView, OrderTagListCreateView
 
+router = DefaultRouter()
+router.register(r"tags", OrderTagListCreateView)
+router.register(r"", OrderListCreateView)
 
-urlpatterns = [
-    path('tags/', OrderTagListCreateView.as_view(), name='order-detail'),
-    path('', OrderListCreateView.as_view(), name='order-list'),
-
-]
+urlpatterns = router.urls
