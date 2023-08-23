@@ -37,7 +37,10 @@ class InventoryListCreateView(APIView):
         return Response(serializer.data, status=201)
 
     def get(self, request: Request, *args, **kwargs) -> Response:
-        serializer = self.serializer_class(self.get_queryset(), many=True)
+        qs = self.get_queryset()
+        if "created_after" in request.query_params:
+            qs = qs.filter(created_at__date__gt=request.query_params["created_after"])
+        serializer = self.serializer_class(qs, many=True)
 
         return Response(serializer.data, status=200)
 
